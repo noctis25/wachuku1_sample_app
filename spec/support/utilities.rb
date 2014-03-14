@@ -21,7 +21,7 @@ def sign_in(user, options={})
     remember_token = User.new_remember_token
     cookies[:remember_token] = remember_token
     user.update_attribute(:remember_token, User.hash(remember_token))
-     post sessions_path, {:session => { :email => user.email, :password => user.password }}
+    post sessions_path, {:session => { :email => user.email, :password => user.password }}
   else
     visit signin_path
     fill_in "Email",    with: user.email
