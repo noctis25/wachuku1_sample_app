@@ -42,6 +42,21 @@ describe "following" do
     it { should be_following(other_user) }
     its(:followed_users) { should include(other_user) }
 
+     #Exercise 11.5.1
+     it "should destroy associated relationships one way" do
+      followed_users = @user.followed_users.to_a
+      @user.destroy
+      expect(followed_users).not_to be_empty
+      expect(Relationship.where(follower_id: @user.id, followed_id: other_user.id)).to be_empty
+    end
+
+    it "should destroy associated relationships in a" do
+      followers = other_user.followers.to_a
+      other_user.destroy
+      expect(followers).not_to be_empty
+      expect(Relationship.where(follower_id: @user.id, followed_id: other_user.id)).to be_empty
+    end
+
     describe "followed user" do
       subject { other_user }
       its(:followers) { should include(@user) }
